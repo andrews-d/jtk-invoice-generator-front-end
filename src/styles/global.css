@@ -1,0 +1,261 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  /* background: var(--bg); */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: #666565 !important;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent);
+}
+
+/*Table*/
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.common-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.common-table th,
+.common-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.common-table th {
+  background: var(--primary);
+  color: white;
+}
+
+.action-icons i {
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-style: italic;
+}
+
+/* Antd Styles*/
+.ant-table-thead > tr > th {
+  background: var(--primary) !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.ant-table-tbody > tr > td {
+  padding: 5px 10px !important;
+}
+
+.primary-btn {
+  background: var(--primary) !important;
+  color: white !important;
+
+  &:disabled {
+    background: var(--border) !important;
+    color: #999 !important;
+    cursor: not-allowed !important;
+    opacity: 0.9; /* 👈 makes it faded */
+  }
+}
+.ant-modal-container {
+  padding: 0 !important;
+}
+.ant-modal-header {
+  background: var(--primary) !important;
+  padding: 10px 20px !important;
+}
+
+.ant-modal-title {
+  color: white !important;
+  font-weight: 600 !important;
+}
+.ant-modal-close {
+  color: white !important;
+  top: 6px !important;
+}
+
+.ant-modal-body {
+  padding: 20px 20px 0px 20px !important;
+  max-height: 70vh !important;
+  overflow: auto !important;
+}
+
+.ant-form-item {
+  margin-bottom: 12px !important;
+}
+
+.ant-form-item-label {
+  padding-bottom: 5px !important;
+}
+
+.ant-form-item-label label {
+  font-size: small !important;
+}
+
+.ant-modal-footer {
+  padding: 0px 20px 20px 20px !important;
+}
+.page-title {
+  color: var(--primary) !important;
+  font-weight: 500;
+  font-size: larger;
+}
+
+.table-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--primary);
+  padding: 2px;
+  border-radius: 4px;
+  color: var(--primary);
+}
+
+form h3 {
+  padding: 5px 10px;
+  background: #ced8df;
+  /* color: #fff; */
+}
+
+.ant-input,
+.ant-input-number {
+  padding: 2px 12px !important;
+  width: 100% !important;
+}
+
+.ant-input-number input {
+  padding-block: 0 !important;
+}
+
+.preview {
+  margin: 40px;
+  /* padding: 20px; */
+  /* border: 2px solid #333; */
+  font-size: 18px;
+  display: none;
+}
+
+.invoice-table {
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.invoice-table-section {
+  width: 50%;
+}
+.bill-to-section {
+  width: 50%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.invoice-table th,
+.invoice-table td {
+  border: 1px solid #333;
+  padding: 8px;
+}
+.invoice-table td {
+  text-align: left;
+}
+.button-container {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: end;
+  gap: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.form-field input,
+.form-field textarea {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-field textarea {
+  height: 60px;
+}
+.bill-to-invoice-details-section {
+  display: flex;
+}
+#previewTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #333;
+}
+
+#previewTable td,
+#previewTable th {
+  border: 2px solid #333;
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.signature-box {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.invoice-logo {
+  height: 300px;
+}
+
+.invoice-logo-name {
+  height: 90px;
+}
+
+td .ant-form-item {
+  margin-bottom: 0 !important;
+}

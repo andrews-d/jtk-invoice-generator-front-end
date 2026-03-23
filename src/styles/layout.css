@@ -1,0 +1,33 @@
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg);
+}
+
+/* Navbar height */
+.navbar {
+  height: 60px;
+}
+
+/* body layout */
+.layout-body {
+  display: flex;
+  flex: 1;
+}
+
+/* sidebar */
+.sidebar {
+  width: 240px;
+  background: var(--primary);
+  color: white;
+  min-height: calc(100vh - 60px);
+}
+
+/* main content */
+.layout-content {
+  flex: 1;
+  padding: 10px 15px;
+  background: var(--bg);
+  overflow-y: auto;
+}
