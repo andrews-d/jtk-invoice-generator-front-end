@@ -1,9 +1,10 @@
-import { Table, Space } from "antd";
+import { Table, Space, Popconfirm } from "antd";
 import {
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,
   DownloadOutlined,
+  CheckOutlined,
 } from "@ant-design/icons";
 
 export default function CommonTable({
@@ -18,24 +19,50 @@ export default function CommonTable({
   const actionColumn = {
     title: "",
     width: 60,
-    render: (_, row) => (
-      <Space>
-        <div className="table-icon">
-          <EyeOutlined onClick={() => onView(row)} />
-        </div>
-        <div className="table-icon">
-          <EditOutlined onClick={() => onEdit(row)} />
-        </div>
-        <div className="table-icon">
-          <DeleteOutlined onClick={() => onDelete(row)} />
-        </div>
-        {onDownload && (
+    render: (_, row) =>
+      row?.isActive ? (
+        <Space>
           <div className="table-icon">
-            <DownloadOutlined onClick={() => onDownload(row)} />
+            <EyeOutlined onClick={() => onView(row)} />
           </div>
-        )}
-      </Space>
-    ),
+          <div className="table-icon">
+            <EditOutlined onClick={() => onEdit(row)} />
+          </div>
+          <div className="table-icon">
+            <Popconfirm
+              title="Are you sure?"
+              description="Do you want to delete this invoice?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => onDelete(row)}
+            >
+              <DeleteOutlined />
+            </Popconfirm>
+          </div>
+          {onDownload && (
+            <div className="table-icon">
+              <DownloadOutlined onClick={() => onDownload(row)} />
+            </div>
+          )}
+        </Space>
+      ) : (
+        <Space>
+          <div className="table-icon">
+            <EyeOutlined onClick={() => onView(row)} />
+          </div>
+          <div className="table-icon">
+            <Popconfirm
+              title="Are you sure?"
+              description="Do you want to restore this invoice?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => onDelete(row)}
+            >
+              <CheckOutlined />
+            </Popconfirm>
+          </div>
+        </Space>
+      ),
   };
 
   const serialColumn = {

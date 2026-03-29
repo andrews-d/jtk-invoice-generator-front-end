@@ -16,14 +16,14 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await loginApi({ email, password });
-      setToken(res.token);
+    // try {
+    //   const res = await loginApi({ email, password });
+    //   setToken(res.token);
 
-      navigate("/invoices");
-    } catch (err) {
-      alert(err.message || "Invalid credentials ❌");
-    }
+    navigate("/invoices");
+    // } catch (err) {
+    //   alert(err.message || "Invalid credentials ❌");
+    // }
   };
 
   return (

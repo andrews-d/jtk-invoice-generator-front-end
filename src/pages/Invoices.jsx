@@ -1,27 +1,32 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, act } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { Button, Space, Form, Card } from "antd";
 import dayjs from "dayjs";
 import { message } from "antd";
-import { createItem, deleteItem, updateItem } from "../api/apiService";
+import {
+  createItem,
+  deleteItem,
+  getAll,
+  patchItem,
+  updateItem,
+} from "../api/apiService";
 import CommonTable from "../components/common/CommonTable";
 import CommonModal from "../components/common/CommonModal";
-import SearchBar from "../components/common/SearchBar";
 import InvoiceForm from "../components/invoice/InvoiceForm";
 import {
   defaultInvoiceItems,
+  defaultSearchValues,
   formatDate,
   formatDateTable,
   formatINR,
   getNextInvoiceNumber,
 } from "../helpers/invoice-helper";
 import InvoicePreview from "../components/invoice/InvoicePreview";
+import InvoiceSearch from "../components/invoice/InvoiceSearch";
 
 export default function Invoices() {
   const [data, setData] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [search, setSearch] = useState("");
   const [openPrivew, setOpenPreview] = useState(false);
   const [invoiceData, setInvoiceData] = useState({});
   const [vendors, setVendors] = useState([]);
@@ -30,6 +35,8 @@ export default function Invoices() {
 
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [searchValues, setSearchValues] = useState(defaultSearchValues);
+
   const previewRef = useRef();
 
   const rowSelection = {
@@ -42,36 +49,22 @@ export default function Invoices() {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    fetchInvoices();
+    fetchInvoices(searchValues);
   }, []);
 
-  const fetchInvoices = async () => {
-    const res = await fetch("/api/invoices");
-    const result = await res.json();
+  const fetchInvoices = async (params) => {
+    const res = await getAll(
+      `invoices?page=${params?.page}&limit=${params?.limit}&invoiceYear=${params?.invoiceYear}&search=${params?.invoiceNoOrName}&isActive=${params?.active}`,
+    );
 
-    setData(result);
-    setFiltered(result);
-    handleClose();
+    setData(res.data);
   };
 
   const handleClose = () => {
-    setInvoiceData({});
     setOpenPreview(false);
     setOpen(false);
     setMode("add");
     setEditId(null);
-  };
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-
-    setSearch(value);
-
-    const result = data.filter((item) =>
-      item.invoiceNo.toLowerCase().includes(value.toLowerCase()),
-    );
-
-    setFiltered(result);
   };
 
   const openGenerate = () => {
@@ -146,15 +139,6 @@ export default function Invoices() {
     { title: "Container No", dataIndex: "containerNo" },
 
     { title: "Booking Details", dataIndex: "bookingDetails" },
-
-    // { title: "GSTIN", dataIndex: "gstin" },
-
-    // { title: "State", dataIndex: "state" },
-
-    // { dataIndex: "address1", title: "Address 1" },
-    // { dataIndex: "address2", title: "Address 2" },
-    // { dataIndex: "address3", title: "Address 3" },
-    // { dataIndex: "pinCode", title: "Pin Code" },
   ];
 
   const handleSubmit = async () => {
@@ -199,7 +183,7 @@ export default function Invoices() {
         });
       }
       handleDownload(invoiceData);
-      fetchInvoices();
+      fetchInvoices(searchValues);
       // setOpenPreview(true);
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -302,8 +286,8 @@ export default function Invoices() {
 
   /* DELETE */
   const handleDelete = async (row) => {
-    await deleteItem("invoices", row._id);
-    fetchInvoices();
+    await patchItem("invoices", row._id, row?.isActive ? "delete" : "restore");
+    fetchInvoices(searchValues);
   };
 
   const handleDownload = async (row) => {
@@ -340,21 +324,30 @@ export default function Invoices() {
       await writable.write(blob);
       await writable.close();
 
-      // handleClose();
+      handleClose();
     }, 300);
   };
   return (
     <div>
       <h2 className="page-title">Invoices</h2>
+      <Card
+        variant="borderless"
+        style={{ width: "100%", marginBottom: "10px" }}
+      >
+        <InvoiceSearch
+          searchValues={searchValues}
+          setSearchValues={setSearchValues}
+          fetchInvoices={fetchInvoices}
+        />
+      </Card>
       <Card variant="borderless" style={{ width: "100%" }}>
         <Space
           style={{
             marginBottom: 20,
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "end",
           }}
         >
-          <SearchBar value={search} onChange={handleSearch} />
           <div>
             <Button
               className="primary-btn"
@@ -372,7 +365,7 @@ export default function Invoices() {
 
         <CommonTable
           columns={columns}
-          data={filtered}
+          data={data}
           rowSelection={rowSelection}
           onView={openView}
           onEdit={openEdit}
@@ -384,7 +377,10 @@ export default function Invoices() {
           width={1400}
           title="Generate Invoice"
           open={open}
-          onCancel={handleClose}
+          onCancel={() => {
+            handleClose();
+            setInvoiceData({});
+          }}
           footer={footer}
         >
           {openPrivew ? (

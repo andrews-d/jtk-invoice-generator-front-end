@@ -1,4 +1,8 @@
-import { defaultInvoiceParticulars } from "../utils/constants";
+import {
+  DEFAULT_PAGE_NUMBER,
+  DEFAULT_PAGE_SIZE,
+  defaultInvoiceParticulars,
+} from "../utils/constants";
 
 export const getNextInvoiceNumber = (invoices) => {
   if (!invoices || invoices.length === 0) return "0001";
@@ -85,4 +89,12 @@ export const formatINR = (amount) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+};
+
+export const defaultSearchValues = {
+  invoiceNoOrName: "",
+  page: DEFAULT_PAGE_NUMBER,
+  limit: DEFAULT_PAGE_SIZE,
+  invoiceYear: dayjs().format("YYYY"),
+  active: true,
 };

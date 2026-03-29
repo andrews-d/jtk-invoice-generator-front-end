@@ -29,3 +29,11 @@ export const deleteItem = async (endpoint, id) => {
   const res = await api.delete(`/${endpoint}/${id}`);
   return res.data;
 };
+
+// ✅ PATCH (for soft delete / restore / status change)
+export const patchItem = async (endpoint, id, action = "") => {
+  const url = action ? `/${endpoint}/${id}/${action}` : `/${endpoint}/${id}`;
+
+  const res = await api.patch(url);
+  return res.data;
+};

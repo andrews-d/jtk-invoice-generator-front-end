@@ -249,7 +249,7 @@ form h3 {
 }
 
 .invoice-logo {
-  height: 300px;
+  height: 250px;
 }
 
 .invoice-logo-name {
@@ -258,4 +258,12 @@ form h3 {
 
 td .ant-form-item {
   margin-bottom: 0 !important;
+}
+
+.ant-switch-inner {
+  background-color: var(--ant-color-text-quaternary) !important;
+}
+
+.ant-switch.ant-switch-checked .ant-switch-inner {
+  background-color: var(--primary) !important;
 }
